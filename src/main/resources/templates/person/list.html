@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">
+		Nenhuma pessoa está cadastrada em nossa biblioteca.</div>
+	<div class="alert alert-primary" th:if="${message != null}"
+		th:text="${message}"></div>
+	<div class="card">
+		<div class="card-header">
+			<h5 style='text-align: center' class="text-primary">Pessoas
+				cadastradas</h5>
+		</div>
+		<div class="card-body">
+			<form method="GET">
+				<div class="form-group mb-3">
+					<label for="cpf">CPF da pessoa:</label> <input class="form-control"
+						type="text" name="cpf"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Buscar</button>
+			</form>
+			<br>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nome Completo</th>
+							<th>CPF</th>
+							<th>Data de Nascimento</th>
+							<th>CEP</th>
+							<th>Logradouro</th>
+							<th>Número</th>
+							<th>Complemento</th>
+							<th>Cidade</th>
+							<th>Estado</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="person : ${list}">
+							<td th:text="${person.id}"></td>
+							<td th:text="${person.name}"></td>
+							<td th:text="${person.cpf}"></td>
+							<td th:text="${#dates.format(person.birthDate, 'dd/MM/yyyy')}"></td>
+							<td th:text="${person.address.zipCode}"></td>
+							<td th:text="${person.address.addressLine}"></td>
+							<td th:text="${person.address.number}"></td>
+							<td th:text="${person.address.additional}"></td>
+							<td th:text="${person.address.city}"></td>
+							<td th:text="${person.address.state}"></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/person/edit(id=${person.id})}">Editar</a></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/person/delete(id=${person.id})}"
+								onclick="return confirm('Você realmente deseja exluir essa pessoa?')">Excluir</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

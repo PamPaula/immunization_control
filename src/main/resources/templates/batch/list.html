@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">
+		Nenhum lote está cadastrado em nossa biblioteca.</div>
+	<div class="alert alert-primary" th:if="${message != null}"
+		th:text="${message}"></div>
+	<div class="card">
+		<div class="card-header">
+			<h5 style='text-align: center' class="text-primary">Lotes
+				cadastrados</h5>
+		</div>
+		<div class="card-body">
+			<form method="GET">
+				<div class="form-group mb-3">
+					<label for="identification">Lote:</label> <input class="form-control"
+						type="text" name="identification"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Buscar</button>
+			</form>
+			<br>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Vacina</th>
+							<th>Identificação do Lote</th>
+							<th>Quantidade Recebida</th>
+							<th>Quantidade Restante</th>
+							<th>Data de Recebimento</th>
+							<th>Data de Validade</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="batch : ${list}">
+							<td th:text="${batch.id}"></td>
+							<td th:text="${batch.vaccine.name}"></td>
+							<td th:text="${batch.identification}"></td>
+							<td th:text="${batch.qtyReceived}"></td>
+							<td th:text="${batch.qtyRemaining}"></td>
+							<td th:text="${#dates.format(batch.deliveryDate, 'dd/MM/yyyy')}"></td>
+							<td
+								th:text="${#dates.format(batch.expirationDate, 'dd/MM/yyyy')}"></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/batch/edit(id=${batch.id})}">Editar</a></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/batch/delete(id=${batch.id})}"
+								onclick="return confirm('Você realmente deseja exluir esse lote?')">Excluir</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

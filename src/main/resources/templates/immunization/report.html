@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">
+		Nenhuma pessoa está cadastrada em nossa biblioteca.</div>
+	<div class="alert alert-primary" th:if="${message != null}"
+		th:text="${message}"></div>
+	<div class="card">
+		<div class="card-header">
+			<h5 style='text-align: center' class="text-primary">Pessoas
+				cadastradas</h5>
+		</div>
+		<div class="card-body">
+			<br>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Data</th>
+							<th>Nome da pessoa</th>
+							<th>CPF</th>
+							<th>Vacina</th>
+							<th>Local da Vacinação</th>
+							<th>Dose</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="immunization : ${list}">
+							<td th:text="${​​​immunization.id}​​​"></td>
+							<td
+								th:text="${​​​#dates.format(immunization.date, 'dd/MM/yyyy')}​​​"></td>
+							<td th:text="${​​immunization.person.name}​​​"></td>
+							<td th:text="${​​​immunization.person.cpf}​​​"></td>
+							<td th:text="${​​immunization.batch.vaccine.name}​​​"></td>
+							<td th:text="${​​​immunization.location.name}​​​"></td>
+							<td th:text="${​​​immunization.dosage}​​​"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

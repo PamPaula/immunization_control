@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymealef.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<head>
+<meta charset="UTF-8">
+</head>
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">
+		Nenhuma vacina encontrada em nossa biblioteca.</div>
+	<div class="card">
+		<div class="card-header">
+			<h5 style='text-align: center' class="text-primary">Vacinas cadastradas</h5>
+		</div>
+		<div class="card-body">
+			<form method="GET">
+				<div class="form-group mb-3">
+					<label for="name">Buscar Vacina:</label>
+					<input class="form-control" type="text" name="name"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Buscar</button>
+			</form>
+			<br> <div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nome da Vacina</th>
+							<th>Laboratório</th>
+							<th>Posologia</th>
+							<th>Intervalo entre as doses</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="vaccine : ${list}">
+							<td th:text="${vaccine.id}"></td>
+							<td th:text="${vaccine.name}"></td>
+							<td th:text="${vaccine.lab}"></td>
+							<td th:text="${vaccine.dosage}"></td>
+							<td th:text="${vaccine.time}"></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/vaccine/edit(id=${vaccine.id})}">Editar</a></td>
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/vaccine/delete(id=${vaccine.id})}"
+								onclick="return confirm('Você realmente deseja exluir essa vacina?')">Excluir</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>
